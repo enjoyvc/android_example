@@ -50,7 +50,7 @@ public interface AppRTCClient {
   /**
    * Send offer SDP to the other participant.
    */
-  void sendOfferSdp(final int streamId, final SessionDescription sdp);
+  void sendOfferSdp(final long streamId, final SessionDescription sdp);
 
   /**
    * Send answer SDP to the other participant.
@@ -60,7 +60,7 @@ public interface AppRTCClient {
   /**
    * Send Ice candidate to the other participant.
    */
-  void sendLocalIceCandidate(final int streamId, final IceCandidate candidate);
+  void sendLocalIceCandidate(final long streamId, final IceCandidate candidate);
 
   /**
    * Send removed ICE candidates to the other participant.
@@ -84,11 +84,11 @@ public interface AppRTCClient {
     public final SessionDescription offerSdp;
     public final List<IceCandidate> iceCandidates;
     public final boolean publisher;
-    public final int streamId;
+    public final long streamId;
 
     public SignalingParameters(List<PeerConnection.IceServer> iceServers, boolean initiator,
         String clientId, String wssUrl, String wssPostUrl, SessionDescription offerSdp,
-        List<IceCandidate> iceCandidates, boolean publisher, int streamId) {
+        List<IceCandidate> iceCandidates, boolean publisher, long streamId) {
       this.iceServers = iceServers;
       this.initiator = initiator;
       this.clientId = clientId;
@@ -116,7 +116,7 @@ public interface AppRTCClient {
     /**
      * Callback fired once remote SDP is received.
      */
-    void onRemoteDescription(final int streamId, final SessionDescription sdp);
+    void onRemoteDescription(final long streamId, final SessionDescription sdp);
 
     /**
      * Callback fired once remote Ice candidate is received.

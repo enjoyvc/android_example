@@ -41,7 +41,7 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
     }
 
     @Override
-    public void sendOfferSdp(int streamId, SessionDescription sdp) {
+    public void sendOfferSdp(long streamId, SessionDescription sdp) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -56,7 +56,7 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
     }
 
     @Override
-    public void sendLocalIceCandidate(int streamId, IceCandidate candidate) {
+    public void sendLocalIceCandidate(long streamId, IceCandidate candidate) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -94,7 +94,7 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
         for(int i = 0; i < len; i++) {
             try {
                 JSONObject stream = streams.getJSONObject(i);
-                int id = stream.getInt("id");
+                long id = stream.getLong("id");
                 rtc.sendSubscribe(id);
                 return;
             } catch (JSONException e) {
@@ -105,7 +105,7 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
     }
 
     @Override
-    public void published(int streamId) {
+    public void published(long streamId) {
         Log.i(TAG, "published" + String.valueOf(streamId));
         SignalingParameters parameters = new SignalingParameters(
                 // Ice servers are not needed for direct connections.
@@ -123,7 +123,7 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
     }
 
     @Override
-    public void subscribed(int streamId) {
+    public void subscribed(long streamId) {
         Log.i(TAG, "subscribed" + String.valueOf(streamId));
         SignalingParameters parameters = new SignalingParameters(
                 // Ice servers are not needed for direct connections.
@@ -141,13 +141,13 @@ public class EnjoyvcRTCClient implements org.appspot.apprtc.AppRTCClient, Enjoyv
     }
 
     @Override
-    public void answer(int streamId, SessionDescription sdp) {
+    public void answer(long streamId, SessionDescription sdp) {
         Log.i(TAG, "answer" + sdp.description);
         events.onRemoteDescription(streamId, sdp);
     }
 
     @Override
-    public void ready(boolean publish, int streamId) {
+    public void ready(boolean publish, long streamId) {
         //if(!publish)
         //      rtc.sendPublish();
     }

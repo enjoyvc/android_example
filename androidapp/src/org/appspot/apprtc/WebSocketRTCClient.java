@@ -186,7 +186,7 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
 
   // Send local offer SDP to the other participant.
   @Override
-  public void sendOfferSdp(final int streamId, final SessionDescription sdp) {
+  public void sendOfferSdp(final long streamId, final SessionDescription sdp) {
     handler.post(new Runnable() {
       @Override
       public void run() {
@@ -228,7 +228,7 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
 
   // Send Ice candidate to the other participant.
   @Override
-  public void sendLocalIceCandidate(final int streamId, final IceCandidate candidate) {
+  public void sendLocalIceCandidate(final long streamId, final IceCandidate candidate) {
     handler.post(new Runnable() {
       @Override
       public void run() {

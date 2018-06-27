@@ -150,7 +150,7 @@ public class DirectRTCClient implements AppRTCClient, TCPChannelClient.TCPChanne
   }
 
   @Override
-  public void sendOfferSdp(final int streamId, final SessionDescription sdp) {
+  public void sendOfferSdp(final long streamId, final SessionDescription sdp) {
     executor.execute(new Runnable() {
       @Override
       public void run() {
@@ -180,7 +180,7 @@ public class DirectRTCClient implements AppRTCClient, TCPChannelClient.TCPChanne
   }
 
   @Override
-  public void sendLocalIceCandidate(final int streamId, final IceCandidate candidate) {
+  public void sendLocalIceCandidate(final long streamId, final IceCandidate candidate) {
     executor.execute(new Runnable() {
       @Override
       public void run() {

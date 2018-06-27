@@ -201,7 +201,7 @@ public class EnjoyvcMedia implements AppRTCClient.SignalingEvents,
     private CallActivity activity;
     //private CpuMonitor cpuMonitor;
 
-    public int streamId;
+    public long streamId;
 
     public EnjoyvcMedia(Activity activity, EglBase eglBase, AppRTCClient appRtcClient,
                         SurfaceViewRenderer pipRenderer, SurfaceViewRenderer fullscreenRenderer,
@@ -544,7 +544,7 @@ public class EnjoyvcMedia implements AppRTCClient.SignalingEvents,
     }
 
     @Override
-    public void onRemoteDescription(final int streamId, final SessionDescription sdp) {
+    public void onRemoteDescription(final long streamId, final SessionDescription sdp) {
         final long delta = System.currentTimeMillis() - callStartedTimeMs;
         activity.runOnUiThread(new Runnable() {
             @Override

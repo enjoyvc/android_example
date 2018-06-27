@@ -112,7 +112,7 @@ public class EnjoyvcRTC {
         }
     }
 
-    public static final String enjoyvcUrl = "https://192.168.106.180/cloud/createToken";//"https://vccamp.vccore.com/cloud/createToken";
+    public static final String enjoyvcUrl = "https://vccamp.vccore.com/cloud/createToken";
 
     public boolean createToken() {
         JSONObject room = new JSONObject();
@@ -147,10 +147,10 @@ public class EnjoyvcRTC {
         void connected();
         void disconnected();
         void checked(JSONArray streams);
-        void published(int streamId);
-        void subscribed(int streamId);
-        void answer(int streamId, SessionDescription sdp);
-        void ready(boolean publish, int streamId);
+        void published(long streamId);
+        void subscribed(long streamId);
+        void answer(long streamId, SessionDescription sdp);
+        void ready(boolean publish, long streamId);
     }
 
     void sendToken() {
@@ -208,7 +208,7 @@ public class EnjoyvcRTC {
         });
     }
 
-    public void sendOffer(int streamId, String sdp) {
+    public void sendOffer(long streamId, String sdp) {
         if(socket == null || token == null)
             return;
         JSONObject signal = new JSONObject();
@@ -226,7 +226,7 @@ public class EnjoyvcRTC {
         socket.emit("signaling_message", signal);
     }
 
-    public void sendCandidate(int streamId, IceCandidate candidate) {
+    public void sendCandidate(long streamId, IceCandidate candidate) {
         if(socket == null || token == null)
             return;
         JSONObject signal = new JSONObject();
@@ -249,7 +249,7 @@ public class EnjoyvcRTC {
         socket.emit("signaling_message", signal);
     }
 
-    public void sendEndCandidate(int streamId) {
+    public void sendEndCandidate(long streamId) {
         if (socket == null || token == null)
             return;
         JSONObject signal = new JSONObject();
@@ -271,7 +271,7 @@ public class EnjoyvcRTC {
         socket.emit("signaling_message", signal);
     }
 
-    public void sendSubscribe(int streamId) {
+    public void sendSubscribe(long streamId) {
         if(socket == null || token == null)
             return;
         JSONObject msg = new JSONObject();
@@ -293,7 +293,7 @@ public class EnjoyvcRTC {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.i(TAG, "send publish:");
+        Log.i(TAG, "send subscribe:");
         Log.i(TAG, String.valueOf(msg));
 
         socket.emit("subscribe", msg, "undefined", new Ack() {
@@ -343,23 +343,23 @@ public class EnjoyvcRTC {
                         String type = msg.getJSONObject("mess").getString("type");
                         if(type.equals("started")) {
                             if(msg.has("streamId")) {
-                                int streamId = msg.getInt("streamId");
+                                long streamId = msg.getLong("streamId");
                                 if(enjoyvcCallback != null)
                                     enjoyvcCallback.published(streamId);
                             }
                             else {
-                                int streamId = msg.getInt("peerId");
+                                long streamId = msg.getLong("peerId");
                                 if(enjoyvcCallback != null)
                                     enjoyvcCallback.subscribed(streamId);
                             }
                         }
                         else if(type.equals("answer")) {
-                            int streamId;
+                            long streamId;
                             if(msg.has("streamId")) {
-                                streamId = msg.getInt("streamId");
+                                streamId = msg.getLong("streamId");
                             }
                             else {
-                                streamId = msg.getInt("peerId");
+                                streamId = msg.getLong("peerId");
                             }
                             SessionDescription sdp = new SessionDescription(
                                     SessionDescription.Type.fromCanonicalForm(type), msg.getJSONObject("mess").getString("sdp"));
@@ -367,14 +367,14 @@ public class EnjoyvcRTC {
                                 enjoyvcCallback.answer(streamId, sdp);
                         }
                         else if(type.equals("ready")) {
-                            int streamId;
+                            long streamId;
                             boolean publish;
                             if(msg.has("streamId")) {
-                                streamId = msg.getInt("streamId");
+                                streamId = msg.getLong("streamId");
                                 publish = true;
                             }
                             else {
-                                streamId = msg.getInt("peerId");
+                                streamId = msg.getLong("peerId");
                                 publish = false;
                             }
                             if(enjoyvcCallback != null)

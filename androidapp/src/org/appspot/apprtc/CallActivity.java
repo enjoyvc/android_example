@@ -183,8 +183,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   // True if local view is in the fullscreen renderer.
   private boolean isSwappedFeeds;
 
-  private int publishStreamId;
-  private int subscribStreamId;
+  private long publishStreamId;
+  private long subscribStreamId;
 
   // Controls
   private CallFragment callFragment;
@@ -816,7 +816,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
   }
 
   @Override
-  public void onRemoteDescription(final int streamId, final SessionDescription sdp) {
+  public void onRemoteDescription(final long streamId, final SessionDescription sdp) {
     final long delta = System.currentTimeMillis() - callStartedTimeMs;
     runOnUiThread(new Runnable() {
       @Override
