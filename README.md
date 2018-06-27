@@ -21,35 +21,5 @@ private EnjoyvcMedia enjoyvcSubscribe;
 
 
 *处理流程
+请查看 doc/android_example.txt
 
-CallActivity            EnjoyvcRTCClient              EnjoyvcRTC             EnjoyvcMedia        EnjoyvcCloud
-
-                  - - - > connectToRoom  
-                                                                             http
-                                        - - - - - - > createToken - - - - - - - - - - - - - - >
-                                                                           websocket
-                                                      connection  - - - - - - - - - - - - - - >
-
-                                checked < - - - - - -
-                                                                            websocket
-                                                     - - - - > publish - - - - - - - - - - - ->
-                                                                            websocket
-                                                     - - - - > subscribe - - - - - - - - - - ->
-
-                              published < - - - - - -
-
-                             subscribed < - - - - - -
- onConnectedToRoom <- - -
-
-             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -> onConnectedToRoom
-                                                                   PeerConnectionClient.createOffer
-
-                           sendOfferSdp <- - - - — - — - - - - - - - - - - -
-
-                                                                           websocket
-                                        - - - -> sendOffer - - - - - - - - - - - - - - - - ->
-
-                                 answer < - - - 
-
-                                        - - - - - - - - - - - - - - - - > onRemoteDescription
-                                                                  PeerConnectionClient.setRemoteDescription
